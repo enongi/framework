@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>jquery</title>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<!-- 使用“thymeleaf ”模板引擎在编写js时，“&”关键字要特别注意，因为“thymeleaf ”模板引擎使用的是xml语法。
+因此，在<script>标签的开始——结束的位置要加“/*<![CDATA[*/ ...../*]]>*/” 。
+否则，运行“thymeleaf ”模板引擎时就会出现错误“org.xml.sax.SAXParseException:...” 	-->
+<script type="text/javascript">
+    /*<![CDATA[*/
+    function postData() {
+        var data = 'no=' + $('#no').val() + '&quantity=' + $('#quantity').val()
+                + '&date=' + $('#date').val();
+
+        $.ajax({
+            type : 'POST',
+            url : '/postData',
+            data : data,
+            success : function(r) {
+                console.log(r);
+            },
+            error : function() {
+                alert('error!')
+            }
+        });
+    }
+
+    function postJson() {
+        var data = {
+            no : $('#no').val(),
+            quantity : $('#quantity').val(),
+            date : $('#date').val()
+        };
+        $.ajax({
+            type : 'POST',
+            contentType : 'application/json',
+            url : '/postJson',
+            data : JSON.stringify(data),
+            success : function(r) {
+                console.log(r);
+            },
+            error : function() {
+                alert('error!')
+            }
+        });
+    }
+    /*]]>*/
+</script>
+</head>
+<body>
+    no:
+    <input id="no" value="No.1234567890" />
+    <br /> quantity:
+    <input id="quantity" value="100" />
+    <br /> date:
+    <input id="date" value="2016-12-20" />
+    <br />
+    <input value="postData" type="button" onclick="postData()" />
+    <br />
+    <input value="postJson" type="button" onclick="postJson()" />
+</body>
+</html>
